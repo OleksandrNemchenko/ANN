@@ -23,6 +23,8 @@ namespace ANeuron {
         virtual void Serialize(TSerializer& buffer) const override  { (void) buffer; }
         virtual TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end) override   { (void) end; return buffer; }
 
+        static const std::string& Type() noexcept                   { static const std::string type{"Input"}; return type; }
+
     private:
         mutable TValue _inValue;
     };

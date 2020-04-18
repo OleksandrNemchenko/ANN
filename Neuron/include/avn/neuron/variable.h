@@ -51,6 +51,11 @@ namespace ANeuron {
         void Serialize(TSerializer& buffer) const override;
         TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end) override;
 
+        static const std::string& TypeStr() noexcept    { static const std::string type{"Variable"}; return type; }
+
+        PData DescribeStructure() const noexcept override;
+        static PNeuron CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure);
+
     private:
         EType _type;
 

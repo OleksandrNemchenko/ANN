@@ -12,14 +12,25 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include <memory>
+#include <unordered_map>
 
 namespace ANeuron {
+
+    struct SData {
+        std::string _name;
+
+        std::unordered_map<std::string, std::string> _fields;
+        std::unique_ptr<SData> _subStructure;
+    };
 
     class ANeuronBase {
     public:
         using TInputs = std::vector<const ANeuronBase*>;
         using TSerializer = std::vector<std::byte>;
         using TValue = long double;
+        using PData = std::unique_ptr<SData>;
+        using PNeuron = std::unique_ptr<ANeuronBase>;
 
         ANeuronBase(size_t inputs, const std::string& name = "") noexcept : _inputs(inputs), _name(name)
         {
@@ -51,8 +62,12 @@ namespace ANeuron {
         static void Serialize(TValue value, TSerializer& buffer);
         static TSerializer::const_iterator Deserialize(TValue& value, TSerializer::const_iterator buffer, TSerializer::const_iterator& end);
 
+        virtual PData DescribeStructure() const noexcept = 0;
+        static PNeuron CreateNeuron(const PData& neuronStructure);
+
     protected:
         void SetValue(TValue value) const noexcept  { _value = value; }
+        PData DescribeStructureBase(const std::string& type, PData&& neuronStructure) const noexcept;
 
     private:
         std::string _name;

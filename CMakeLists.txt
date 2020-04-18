@@ -7,5 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(Neuron)
 add_subdirectory(Network)
+add_subdirectory(GeneticAlgorithm)
 
 add_subdirectory(Test)

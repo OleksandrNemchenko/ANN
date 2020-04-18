@@ -51,6 +51,8 @@ namespace ANeuron {
 
         void Calculate() const noexcept;
         void Calculate(const TInputValues& inputs) const noexcept;
+        size_t SerializeSize() const noexcept;
+        bool ToBeCalculated() const noexcept;
 
         TSerializer Serialize() const;
         void Deserialize(const TSerializer& buf);

@@ -88,3 +88,26 @@ bool ANeuron::ANeuronVariable::ToBeCalculated() const noexcept
     }
 
 }
+
+
+ANeuron::ANeuronVariable::PData ANeuron::ANeuronVariable::DescribeStructure() const noexcept
+{
+    PData data = std::make_unique<SData>();
+    auto& fields = data->_fields;
+
+    fields["Mu"] = std::to_string(_data._mu);
+    fields["Sigma"] = std::to_string(_data._sigma);
+
+    return data;
+}
+
+/* static */ ANeuron::ANeuronVariable::PNeuron ANeuron::ANeuronVariable::CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure)
+{
+    auto neuron = std::make_unique<ANeuronVariable>(inputs, name);
+    const auto& fields = neuronStructure->_fields;
+
+    neuron->_data._mu =    std::stold(fields.at("Mu"));
+    neuron->_data._sigma = std::stold(fields.at("Sigma"));
+
+    return neuron;
+}

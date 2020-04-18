@@ -21,37 +21,13 @@ namespace ANeuron {
         TValue _mu;
         TValue _sigma;
 
-        void Reset() noexcept
-        {
-            _mu = 0;
-            _sigma = 0;
-        }
+        void Reset() noexcept;
 
         bool ToBeCalculated() const noexcept                { return _sigma > 0; }
         static constexpr size_t SerializeSize() noexcept    { return sizeof(_mu) + sizeof(_sigma); }
-        void Serialize(TSerializer& buffer) const noexcept
-        {
-            ANeuronBase::Serialize(_mu, buffer);
-            ANeuronBase::Serialize(_sigma, buffer);
-        }
-        TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end)
-        {
-            TSerializer::const_iterator it = ANeuronBase::Deserialize(_mu, buffer, end);
-            it = ANeuronBase::Deserialize(_sigma, it, end);
-            return it;
-        }
-
-        TValue TransferFunction(TValue sum) const noexcept
-        {
-            TValue res;
-
-            if (_sigma <= 0)
-                res = std::numeric_limits<TValue>::infinity();
-            else
-                res = exp(-pow(sum - _mu, 2) / (2 * _sigma * _sigma)) / sqrt(2 * M_PI * _sigma);
-
-            return res;
-        }
+        void Serialize(TSerializer& buffer) const noexcept;
+        TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end);
+        TValue TransferFunction(TValue sum) const noexcept;
 
     };
 
@@ -71,6 +47,11 @@ namespace ANeuron {
         size_t SerializeSize() const noexcept override              { return AGaussianCalculator::SerializeSize(); }
         void Serialize(TSerializer& buffer) const override          { return _data.Serialize(buffer); }
         TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end) override  { return _data.Deserialize(buffer, end); }
+
+        static const std::string& Type() noexcept                   { static const std::string type{"Gaussian"}; return type; }
+
+        PData DescribeStructure() const noexcept override;
+        static PNeuron CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure);
 
     private:
         AGaussianCalculator _data;

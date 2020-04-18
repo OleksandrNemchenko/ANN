@@ -129,3 +129,23 @@ void ANeuron::ANetwork::Deserialize(const ANeuron::ANetwork::TSerializer& buf)
     }
 }
 
+bool ANeuron::ANetwork::ToBeCalculated() const noexcept
+{
+    for (const auto &neuron : _neurons) {
+        if(!neuron->ToBeCalculated())
+            return false;
+    }
+
+    return true;
+}
+
+size_t ANeuron::ANetwork::SerializeSize() const noexcept
+{
+    size_t size = 0;
+
+    for (const auto &neuron : _neurons) {
+        size += neuron->SerializeSize();
+    }
+
+    return size;
+}

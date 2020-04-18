@@ -39,6 +39,12 @@ namespace ANeuron {
         void Serialize(TSerializer& buffer) const override          { return _data.Serialize(buffer); }
         TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end) override  { return _data.Deserialize(buffer, end); }
 
+        static const std::string& Type() noexcept                   { static const std::string type{"Threshold"}; return type; }
+        static PNeuron CreateNeuron(const PData& neuronStructure);
+
+        PData DescribeStructure() const noexcept override           { return std::make_unique<SData>(); }
+        static PNeuron CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure)   { return std::make_unique<ANeuronThreshold>(inputs, name); }
+
     private:
         AThresholdCalculator _data;
         TValue TransferFunction(TValue sum) const noexcept { return _data.TransferFunction(sum); }

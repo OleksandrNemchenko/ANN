@@ -40,6 +40,7 @@ namespace ANeuron {
     private:
         TWeight _w0;
         TWeights _weights;
+
     };
 
 } // namespace ANeuron

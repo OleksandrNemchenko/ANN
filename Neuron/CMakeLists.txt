@@ -19,6 +19,8 @@ target_sources(avn_neuron
         ${CMAKE_CURRENT_SOURCE_DIR}/include/avn/neuron/sigmoid.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/avn/neuron/gaussian.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/avn/neuron/variable.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/sigmoid.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/neuron_base.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/neuron_sum.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/variable.cpp

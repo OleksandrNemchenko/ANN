@@ -20,22 +20,13 @@ namespace ANeuron {
 
         TValue _beta;
 
-        void Reset() noexcept
-        {
-            _beta = 0;
-        }
+        void Reset() noexcept                               { _beta = 0; }
 
         static bool ToBeCalculated() noexcept               { return true; }
         static constexpr size_t SerializeSize() noexcept    { return sizeof(_beta); }
-        void Serialize(TSerializer& buffer) const
-        {
-            ANeuronBase::Serialize(_beta, buffer);
-        }
-        TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end)
-        {
-            TSerializer::const_iterator it = ANeuronBase::Deserialize(_beta, buffer, end);
-            return it;
-        }
+        void Serialize(TSerializer& buffer) const           { ANeuronBase::Serialize(_beta, buffer); }
+
+        TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end);
 
         TValue TransferFunction(TValue sum) const noexcept
         {
@@ -57,6 +48,11 @@ namespace ANeuron {
         size_t SerializeSize() const noexcept override              { return ASigmoidCalculator::SerializeSize(); }
         void Serialize(TSerializer& buffer) const override          { return _data.Serialize(buffer); }
         TSerializer::const_iterator Deserialize(TSerializer::const_iterator buffer, TSerializer::const_iterator end) override  { return _data.Deserialize(buffer, end); }
+
+        static const std::string& Type() noexcept                   { static const std::string type{"Sigmoid"}; return type; }
+
+        PData DescribeStructure() const noexcept override;
+        static PNeuron CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure);
 
     private:
         ASigmoidCalculator _data;
