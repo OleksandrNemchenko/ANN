@@ -9,8 +9,9 @@
 #ifndef _AVN_ANN_NEURON_GENETIC_ALGORITHM_H_
 #define _AVN_ANN_NEURON_GENETIC_ALGORITHM_H_
 
-#include <vector>
+#include <functional>
 #include <memory>
+#include <vector>
 
 #include <avn/neuron/neuron_base.h>
 

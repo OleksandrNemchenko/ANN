@@ -14,3 +14,10 @@ ANeuron::ANeuronSumBase::TValue ANeuron::ANeuronSumBase::Calculate() const noexc
 
     return result;
 }
+
+void ANeuron::ANeuronSumBase::SetInputs(size_t inputs) noexcept
+{
+    _weights.resize(inputs);
+    ANeuronSumBase::SetInputs(inputs);
+}
+

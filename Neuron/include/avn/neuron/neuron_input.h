@@ -14,7 +14,7 @@ namespace ANeuron {
     class ANeuronInput : public ANeuronBase {
     public:
         using TValue = ANeuronBase::TValue;
-        ANeuronInput(size_t inputs, const std::string& name = "") noexcept : ANeuronBase(inputs, name) {}
+        ANeuronInput(const std::string& name = "") noexcept : ANeuronBase(name) {}
 
         void SetInputValue(TValue value) const      { _inValue = value; }
         TValue Calculate() const noexcept override  { return _inValue; }

@@ -29,7 +29,7 @@ namespace ANeuron {
             UNKNOWN = 255
         };
 
-        ANeuronVariable(size_t inputs, const std::string& name = "") : ANeuronSumBase(inputs, name)
+        ANeuronVariable(const std::string& name = "") : ANeuronSumBase(name)
         {
             std::byte *buf = reinterpret_cast<std::byte*>(&_data);
             std::fill(buf, buf + sizeof(_data), static_cast<std::byte>(0));

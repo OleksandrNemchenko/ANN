@@ -2,7 +2,19 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include <algorithm>
+#include <stdexcept>
+
 #include <avn/neuron/network.h>
+
+void ANeuron::ANetwork::SetInputs(size_t inputs)
+{
+    _inputs.resize(inputs);
+}
+
+void ANeuron::ANetwork::SetOutputs(size_t outputs)
+{
+    _outputs.resize(outputs);
+}
 
 bool ANeuron::ANetwork::AddNeuron(PNeuron&& neuron) noexcept
 {
@@ -34,9 +46,9 @@ bool ANeuron::ANetwork::AddNeuron(PNeuron&& neuron, size_t pos)
 
 
 template<typename TArray>
-static typename TArray::value_type::element_type& NeuronImpl(TArray& array, const std::string& name)
+/* static */ typename TArray::value_type::element_type& ANeuron::ANetwork::NeuronImpl(TArray& array, const std::string& name)
 {
-    auto it = NeuronItImpl(array, name);
+    auto it = NeuronItImpl<TArray::const_iterator>(array, name);
 
     if (it == array.cend()) {
         assert(false);
@@ -49,9 +61,9 @@ static typename TArray::value_type::element_type& NeuronImpl(TArray& array, cons
 template<typename TIt, typename TArray>
 TIt ANeuron::ANetwork::NeuronItImpl(TArray& array, const std::string& name)
 {
-    auto it = std::find_if(array.begin(), array.end(), [name](const ANeuronBase& savedNeuron)
+    auto it = std::find_if(array.begin(), array.end(), [name](const std::unique_ptr<ANeuronBase>& savedNeuron)
     {
-        return savedNeuron.Name() == name;
+        return savedNeuron->Name() == name;
     } );
 
     return it;
@@ -69,10 +81,10 @@ void ANeuron::ANetwork::SetOutputNeuron(size_t id, const std::string& name)
 {
     assert(id < _outputs.size());
 
-    auto neuron = NeuronIt(name);
-    assert(neuron != _inputs.end());
+//    auto neuron = NeuronIt(name);
+//    assert(neuron != _inputs.end());
 
-    _outputs[id] = neuron->get();
+//    _outputs[id] = neuron->get();
 }
 
 void ANeuron::ANetwork::Calculate() const noexcept

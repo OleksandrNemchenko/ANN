@@ -35,7 +35,7 @@ namespace ANeuron {
     public:
         using TValue = ANeuronSumBase::TValue;
 
-        ANeuronGaussian(size_t inputs, const std::string& name = "") : ANeuronSumBase(inputs, name) { _data.Reset(); }
+        ANeuronGaussian(const std::string& name = "") : ANeuronSumBase(name) { _data.Reset(); }
 
         void SetMu(TValue mu) noexcept          { _data._mu = mu; }
         void SetSigma(TValue sigma) noexcept    { _data._sigma = sigma; }

@@ -33,7 +33,7 @@ namespace ANeuron {
     public:
         using TValue = ANeuronSumBase::TValue;
 
-        ANeuronThreshold(size_t inputs, const std::string& name = "") : ANeuronSumBase(inputs, name)   {}
+        ANeuronThreshold(const std::string& name = "") : ANeuronSumBase(name)   {}
 
         size_t SerializeSize() const noexcept override              { return AThresholdCalculator::SerializeSize(); }
         void Serialize(TSerializer& buffer) const override          { return _data.Serialize(buffer); }
@@ -43,7 +43,7 @@ namespace ANeuron {
         static PNeuron CreateNeuron(const PData& neuronStructure);
 
         PData DescribeStructure() const noexcept override           { return std::make_unique<SData>(); }
-        static PNeuron CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure)   { return std::make_unique<ANeuronThreshold>(inputs, name); }
+        static PNeuron CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure) { auto neuron = std::make_unique<ANeuronThreshold>(name); neuron->SetInputs(inputs); return neuron; }
 
     private:
         AThresholdCalculator _data;

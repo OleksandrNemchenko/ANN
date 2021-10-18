@@ -1,6 +1,7 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
+#include <numbers>
 #include <stdexcept>
 
 #include <avn/neuron/gaussian.h>
@@ -30,7 +31,7 @@ ANeuron::AGaussianCalculator::TValue ANeuron::AGaussianCalculator::TransferFunct
     if (_sigma <= 0)
         res = std::numeric_limits<TValue>::infinity();
     else
-        res = exp(-pow(sum - _mu, 2) / (2 * _sigma * _sigma)) / sqrt(2 * M_PI * _sigma);
+        res = exp(-pow(sum - _mu, 2) / (2 * _sigma * _sigma)) / sqrt(2 * std::numbers::pi * _sigma);
 
     return res;
 }
@@ -48,7 +49,9 @@ ANeuron::ANeuronGaussian::PData ANeuron::ANeuronGaussian::DescribeStructure() co
 
 /* static */ ANeuron::ANeuronGaussian::PNeuron ANeuron::ANeuronGaussian::CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure)
 {
-    auto neuron = std::make_unique<ANeuronGaussian>(inputs, name);
+    auto neuron = std::make_unique<ANeuronGaussian>(name);
+    neuron->SetInputs(inputs);
+
     const auto& fields = neuronStructure->_fields;
 
     neuron->_data._mu =    std::stold(fields.at("Mu"));

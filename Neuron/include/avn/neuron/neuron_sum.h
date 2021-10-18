@@ -19,12 +19,13 @@ namespace ANeuron {
         using TWeight = TValue;
         using TWeights = std::vector<TValue>;
 
-        ANeuronSumBase(size_t inputs, const std::string& name = "") : ANeuronBase(inputs, name), _weights(inputs)
+        ANeuronSumBase(const std::string& name = "") : ANeuronBase(name)
         {
             _w0 = 0;
             std::fill(_weights.begin(), _weights.end(), 0);
         }
 
+        void SetInputs(size_t inputs) noexcept override;
         void SetW0(TWeight w0) noexcept                     { _w0 = w0; }
         void SetWeight(size_t id, TWeight weight) noexcept  { assert(id < _weights.size()); _weights[id] = weight; }
 

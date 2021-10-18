@@ -95,19 +95,55 @@ ANeuron::ANeuronVariable::PData ANeuron::ANeuronVariable::DescribeStructure() co
     PData data = std::make_unique<SData>();
     auto& fields = data->_fields;
 
-    fields["Mu"] = std::to_string(_data._mu);
-    fields["Sigma"] = std::to_string(_data._sigma);
+    switch (_type)
+    {
+    case EType::GAUSSIAN:
+        fields["Type"] = "Gaussian";
+        fields["Mu"] = std::to_string(_data._gaussian._mu);
+        fields["Sigma"] = std::to_string(_data._gaussian._sigma);
+        break;
+    case EType::SIGMOID:
+        fields["Type"] = "Sigmoid";
+        fields["Beta"] = std::to_string(_data._sigmoid._beta);
+        break;
+    case EType::THRESHOLD:
+        fields["Type"] = "Threshold";
+        break;
+    default:
+        assert(false);
+    }
 
     return data;
 }
 
 /* static */ ANeuron::ANeuronVariable::PNeuron ANeuron::ANeuronVariable::CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure)
 {
-    auto neuron = std::make_unique<ANeuronVariable>(inputs, name);
+    auto neuron = std::make_unique<ANeuronVariable>(name);
+    neuron->SetInputs(inputs);
+
     const auto& fields = neuronStructure->_fields;
 
-    neuron->_data._mu =    std::stold(fields.at("Mu"));
-    neuron->_data._sigma = std::stold(fields.at("Sigma"));
+    const std::string& type = fields.at("Type");
+
+    if (type == "Gaussian")
+    {
+        neuron->_type = EType::GAUSSIAN;
+        neuron->_data._gaussian._mu = std::stold(fields.at("Mu"));
+        neuron->_data._gaussian._sigma = std::stold(fields.at("Sigma"));
+    }
+    else if (type == "Sigmoid")
+    {
+        neuron->_type = EType::SIGMOID;
+        neuron->_data._sigmoid._beta = std::stold(fields.at("Beta"));
+    }
+    else if (type == "Threshold")
+    {
+        neuron->_type = EType::THRESHOLD;
+    }
+    else
+    {
+        assert(false);
+    }
 
     return neuron;
 }

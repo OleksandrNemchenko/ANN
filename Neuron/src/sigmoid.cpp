@@ -23,7 +23,9 @@ ANeuron::ANeuronSigmoid::PData ANeuron::ANeuronSigmoid::DescribeStructure() cons
 
 /* static */ ANeuron::ANeuronSigmoid::PNeuron ANeuron::ANeuronSigmoid::CreateNeuron(size_t inputs, const std::string& name, const PData& neuronStructure)
 {
-    auto neuron = std::make_unique<ANeuronSigmoid>(inputs, name);
+    auto neuron = std::make_unique<ANeuronSigmoid>(name);
+    neuron->SetInputs(inputs);
+
     const auto& fields = neuronStructure->_fields;
 
     neuron->_data._beta =    std::stold(fields.at("Beta"));

@@ -39,7 +39,7 @@ namespace ANeuron {
     public:
         using TValue = ANeuronSumBase::TValue;
 
-        ANeuronSigmoid(size_t inputs, const std::string& name = "") : ANeuronSumBase(inputs, name)   { _data.Reset(); }
+        ANeuronSigmoid(const std::string& name = "") : ANeuronSumBase(name)   { _data.Reset(); }
 
         void SetBeta(TValue beta) noexcept  { _data._beta = beta; }
 

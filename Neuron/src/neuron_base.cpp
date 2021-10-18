@@ -45,6 +45,8 @@ ANeuron::ANeuronBase::PData ANeuron::ANeuronBase::DescribeStructureBase(const st
         std::string name = "Input"s + std::to_string(input + 1) + ".Name"s;
         fields[name] = _inputs[input]->_name;
     }
+
+    return neuronStructure;
 }
 
 /* static */ ANeuron::ANeuronBase::PNeuron ANeuron::ANeuronBase::CreateNeuron(const PData& neuronStructure)

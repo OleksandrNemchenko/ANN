@@ -32,13 +32,18 @@ namespace ANeuron {
         using PData = std::unique_ptr<SData>;
         using PNeuron = std::unique_ptr<ANeuronBase>;
 
-        ANeuronBase(size_t inputs, const std::string& name = "") noexcept : _inputs(inputs), _name(name)
+        ANeuronBase(const std::string& name = "") noexcept : _name(name)
         {
-            std::fill(_inputs.begin(), _inputs.end(), nullptr);
             _value = 0;
         }
 
         virtual ~ANeuronBase() noexcept = default;
+
+        virtual void SetInputs(size_t inputs) noexcept
+        {
+//            _inputs.resize(inputs);
+//            std::fill(_inputs.begin(), _inputs.end(), nullptr);
+        }
 
         void SetName(const std::string& name) noexcept  { _name = name; }
         void SetInput(size_t id, const ANeuronBase* input) noexcept

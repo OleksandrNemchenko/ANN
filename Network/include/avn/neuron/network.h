@@ -27,7 +27,9 @@ namespace ANeuron {
         using TInputValues = std::vector<TValue>;
         using TSerializer = ANeuronBase::TSerializer;
 
-        ANetwork(size_t inputs, size_t outputs = 1);
+        void SetInputs(size_t inputs);
+        void SetOutputs(size_t outputs);
+
         bool AddNeuron(PNeuron&& neuron, size_t pos);
         bool AddNeuron(PNeuron&& neuron) noexcept;
         void SetNeurons(TNeurons&& neurons) noexcept                        { _neurons = std::move(neurons); }
